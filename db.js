@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const Student = require("./models/Student"); // Update the path if necessary
 
 mongoose.connect("mongodb://localhost/student-registration-api", {
   useNewUrlParser: true,
@@ -7,6 +6,11 @@ mongoose.connect("mongodb://localhost/student-registration-api", {
 });
 
 const db = mongoose.connection;
+
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
+
+db.once("open", () => {
+  console.log("Connected to the database!");
+});
 
 module.exports = db;

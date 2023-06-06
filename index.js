@@ -1,43 +1,26 @@
 const express = require("express");
 const app = express();
 const db = require("./db"); // Update the path if necessary
-const Student = require("./models/Student"); // Update the path if necessary
+const studentController = require("./controllers/studentController");
 
 const PORT = 3000;
+
+// Middleware to parse JSON request body
+app.use(express.json());
 
 // Set up routes
 app.get("/", (req, res) => {
   res.send("Welcome to the Student Registration API!");
 });
 
-// Register a new student
-app.post("/students", (req, res) => {
-  const { name, age, grade } = req.body;
+app.get("/students", studentController.getStudents);
+app.post("/students", studentController.createStudent);
+app.put("/students/:id", studentController.updateStudent);
+app.delete("/students/:id", studentController.deleteStudent);
 
-  const student = new Student({ name, age, grade });
-  student.save((err, savedStudent) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send("Error registering student");
-    } else {
-      res.status(201).json(savedStudent);
-    }
-  });
-});
-
-// Get all students
-app.get("/students", (req, res) => {
-  Student.find({}, (err, students) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send("Error retrieving students");
-    } else {
-      res.json(students);
-    }
-  });
-});
+const server = app.listen(PORT);
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+server.on("listening", () => {
+  console.log(`Server is running on port ${server.address().port}`);
 });

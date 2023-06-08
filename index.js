@@ -14,6 +14,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/students", studentController.getStudents);
+app.get("/students/:id", studentController.getStudentById);
 app.post("/students", studentController.createStudent);
 app.put("/students/:id", studentController.updateStudent);
 app.delete("/students/:id", studentController.deleteStudent);

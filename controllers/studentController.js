@@ -41,6 +41,9 @@ exports.createStudent = async (req, res) => {
     const studentData = new Student({ name, age, grade });
 
     const createdStudent = await studentRepository.createStudent(studentData);
+    console.log(
+      "Student created with id:" + createdStudent.id ? createdStudent.id : null
+    );
     res.status(201).json({ message: "Student is created" });
   } catch (error) {
     console.error(error);

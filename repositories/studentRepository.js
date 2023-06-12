@@ -1,4 +1,3 @@
-const { updateStudent } = require("../controllers/studentController");
 const Student = require("../models/Student");
 
 exports.getAllStudent = async () => {

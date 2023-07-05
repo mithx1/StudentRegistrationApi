@@ -1,16 +1,18 @@
-const mongoose = require("mongoose");
+const mysql = require("mysql");
 
-mongoose.connect("mongodb://localhost/student-registration-api", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+const connection = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "Rpc_09231972",
+  database: "student-registration-api",
 });
 
-const db = mongoose.connection;
-
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
-
-db.once("open", () => {
-  console.log("Connected to the database!");
+connection.connect((err) => {
+  if (err) {
+    console.error("MySQL connection error:", err);
+  } else {
+    console.log("Connected to the database!");
+  }
 });
 
-module.exports = db;
+module.exports = connection;

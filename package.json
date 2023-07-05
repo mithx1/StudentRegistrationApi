@@ -19,7 +19,8 @@
   "homepage": "https://github.com/mithx1/StudentRegistrationApi#readme",
   "dependencies": {
     "express": "^4.18.2",
-    "mongoose": "^7.2.2"
+    "mongoose": "^7.2.2",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

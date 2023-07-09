@@ -13,6 +13,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to the Student Registration API!");
 });
 
+//routes
 app.get("/students", studentController.getStudents);
 app.get("/students/:id", studentController.getStudentById);
 app.post("/students", studentController.createStudent);

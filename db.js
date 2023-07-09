@@ -1,9 +1,10 @@
 const mysql = require("mysql");
+require("dotenv").config();
 
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "Rpc_09231972",
+  password: process.env.DB_PASSWORD,
   database: "student-registration-api",
 });
 

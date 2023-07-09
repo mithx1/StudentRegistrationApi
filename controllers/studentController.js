@@ -1,16 +1,17 @@
 // studentController.js
 const Student = require("../models/Student");
 const studentRepository = require("../repositories/studentRepository");
+const connection = require("../db");
 
 exports.getStudents = async (req, res) => {
   // Code for getting all students
   try {
-    console.log("Getting Student");
-    const students = await studentRepository.getAllStudent();
-    res.json(students);
+    const query = "SELECT * FROM students";
+    const results = await connection.query(query);
+    res.json(results);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error retrieving students");
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -39,15 +40,14 @@ exports.createStudent = async (req, res) => {
     }
 
     const studentData = new Student({ name, age, grade });
+    const query = "INSERT INTO students SET ?";
 
-    const createdStudent = await studentRepository.createStudent(studentData);
-    console.log(
-      "Student created with id:" + createdStudent.id ? createdStudent.id : null
-    );
+    const result = await connection.query(query, { name, age, grade });
+
     res.status(201).json({ message: "Student is created" });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Error registering student");
+    res.status(500).json({ message: "Server Error" });
   }
 };
 

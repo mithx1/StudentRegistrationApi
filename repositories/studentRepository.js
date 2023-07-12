@@ -1,21 +1,23 @@
 const Student = require("../models/Student");
 
-exports.getAllStudent = async () => {
-  return await Student.find();
+// Get all students
+exports.getAllStudents = async () => {
+  try {
+    const students = await Student.findAll();
+    return students;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to fetch students from the database.");
+  }
 };
 
-exports.createStudent = async (studentData) => {
-  return await Student.create(studentData);
-};
-
-exports.updateStudent = async (id, studentData) => {
-  return await Student.findByIdAndUpdate(id, studentData);
-};
-
-exports.deleteStudent = async (id) => {
-  return await Student.findByIdAndRemove(id);
-};
-
-exports.getStudentById = async (id) => {
-  return await Student.findById(id);
+// Create a new student
+exports.createStudent = async (name, age, grade) => {
+  try {
+    const student = await Student.create({ name, age, grade });
+    return student;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Failed to create a new student.");
+  }
 };

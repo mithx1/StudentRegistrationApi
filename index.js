@@ -1,28 +1,31 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+const sequelize = require("./db");
+const studentsController = require("./controllers/studentsController");
+require("./models/Student");
+
 const app = express();
-const db = require("./db"); // Update the path if necessary
-const studentController = require("./controllers/studentController");
 
 const PORT = 3000;
 
-// Middleware to parse JSON request body
-app.use(express.json());
+// Middleware
+app.use(bodyParser.json());
 
-// Set up routes
-app.get("/", (req, res) => {
-  res.send("Welcome to the Student Registration API!");
-});
+// Sync the database tables
+sequelize
+  .sync()
+  .then(() => {
+    console.log("Database synced.");
+  })
+  .catch((error) => {
+    console.error("Error syncing database:", error);
+  });
 
-//routes
-app.get("/students", studentController.getStudents);
-app.get("/students/:id", studentController.getStudentById);
-app.post("/students", studentController.createStudent);
-app.put("/students/:id", studentController.updateStudent);
-app.delete("/students/:id", studentController.deleteStudent);
-
-const server = app.listen(PORT);
+// Routes
+app.get("/students", studentsController.getAllStudents);
+app.post("/students", studentsController.createStudent);
 
 // Start the server
-server.on("listening", () => {
-  console.log(`Server is running on port ${server.address().port}`);
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}.`);
 });
